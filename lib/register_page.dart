@@ -1,9 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-final FirebaseAuth _auth = FirebaseAuth.instance;
+import 'package:gastos/auth/auth.dart';
 
 class RegisterPage extends StatefulWidget {
+  RegisterPage({Key key, this.auth, this.onSignIn}) : super(key: key);
+
+  final BaseAuth auth;
+  final VoidCallback onSignIn;
   final String title = 'Registration';
 
   @override
@@ -36,7 +38,7 @@ class RegisterPageState extends State<RegisterPage> {
               children: <Widget>[
                 new Container(
                   child: new Text(
-                    'Acesse sua conta',
+                    'Crie sua conta',
                     style: new TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
@@ -72,18 +74,6 @@ class RegisterPageState extends State<RegisterPage> {
                   decoration: InputDecoration(
                     labelText: 'Senha',
                     prefixIcon: Icon(Icons.lock),
-//                      suffixIcon: IconButton(
-//                          icon: Icon(
-//                            !_passwordVisible
-//                                ? Icons.visibility
-//                                : Icons.visibility_off,
-//                            color: Theme.of(context).primaryColorDark,
-//                          ),
-//                          onPressed: () {
-//                            setState(() {
-//                              _passwordVisible = !_passwordVisible;
-//                            });
-//                          })
                   ),
                   validator: (String value) {
                     if (value.isEmpty) {
@@ -93,14 +83,19 @@ class RegisterPageState extends State<RegisterPage> {
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  alignment: Alignment.center,
-                  child: RaisedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState.validate()) {
-                        _register();
-                      }
-                    },
-                    child: const Text('Submit'),
+                  constraints: const BoxConstraints(minWidth: double.infinity),
+                  child: ButtonTheme(
+                    height: 50,
+                    child: RaisedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          _register();
+                        }
+                      },
+                      child: const Text('Começar'),
+                      color: Color.fromRGBO(30, 217, 230, 1),
+                      textColor: Colors.white,
+                    ),
                   ),
                 ),
                 Container(
@@ -129,17 +124,12 @@ class RegisterPageState extends State<RegisterPage> {
 
   // Example code for registration.
   void _register() async {
-    final FirebaseUser user = await _auth.createUserWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    );
-    if (user != null) {
-      setState(() {
-        _success = true;
-        _userEmail = user.email;
-      });
-    } else {
-      _success = false;
+    try {
+      var userId = await widget.auth
+          .createUser(_emailController.text, _passwordController.text);
+      widget.onSignIn();
+    } catch (e) {
+      print(e);
     }
   }
 }

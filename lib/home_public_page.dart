@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:gastos/auth/auth.dart';
 import 'package:gastos/login_page.dart';
 import 'package:gastos/register_page.dart';
+import 'package:gastos/signin/signin_google.dart';
 
-class HomePage extends StatefulWidget {
+class HomePublicPage extends StatefulWidget {
+  HomePublicPage({Key key, this.title, this.auth, this.onSignIn})
+      : super(key: key);
+
+  final String title;
+  final BaseAuth auth;
+  final VoidCallback onSignIn;
+
   @override
   State<StatefulWidget> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePublicPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -51,7 +60,12 @@ class _HomePageState extends State<HomePage> {
               height: 50,
               child: RaisedButton(
                 onPressed: () {
-                  _pushPage(context, RegisterPage());
+                  _pushPage(
+                      context,
+                      RegisterPage(
+                        auth: widget.auth,
+                        onSignIn: widget.onSignIn,
+                      ));
                 },
                 child: new Text(
                   'Cadastre-se',
@@ -63,22 +77,9 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(left: 40.0, right: 40.0),
-            constraints: const BoxConstraints(minWidth: double.infinity),
-            child: ButtonTheme(
-              height: 50,
-              child: RaisedButton(
-                onPressed: () {},
-                child: new Text(
-                  'Entre com Google',
-                  style: TextStyle(color: Colors.black38),
-                ),
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0)),
-              ),
-            ),
+          GoogleSignInSection(
+            auth: widget.auth,
+            onSignIn: widget.onSignIn,
           ),
           Container(
             padding: EdgeInsets.only(
