@@ -32,6 +32,7 @@ class _RootPageState extends State<RootPage> {
   }
 
   void _updateAuthStatus(AuthStatus status) {
+    print('Entrou no _updateAuthStatus');
     setState(() {
       authStatus = status;
     });

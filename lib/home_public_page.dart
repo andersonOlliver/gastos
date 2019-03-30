@@ -73,13 +73,22 @@ class _HomePageState extends State<HomePublicPage> {
                 ),
                 color: Color.fromRGBO(30, 217, 230, 1),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0)),
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
               ),
             ),
           ),
-          GoogleSignInSection(
-            auth: widget.auth,
-            onSignIn: widget.onSignIn,
+          Container(
+            height: 70,
+            padding: EdgeInsets.only(
+                left: 40.0, right: 40.0, bottom: 10.0, top: 10.0),
+            constraints: const BoxConstraints(minWidth: double.infinity),
+            child: GoogleSignInSection(
+              height: 50.0,
+              onPressed: () {
+                _signInWithGoogle();
+              },
+            ),
           ),
           Container(
             padding: EdgeInsets.only(
@@ -107,5 +116,14 @@ class _HomePageState extends State<HomePublicPage> {
     Navigator.of(context).push(
       MaterialPageRoute<void>(builder: (_) => page),
     );
+  }
+
+  void _signInWithGoogle() async {
+    try {
+      await widget.auth.signInWithGoogle();
+      widget.onSignIn();
+    } catch (e) {
+      print(e);
+    }
   }
 }

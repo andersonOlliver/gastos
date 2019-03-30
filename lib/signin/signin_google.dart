@@ -1,51 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:gastos/auth/auth.dart';
 
-class GoogleSignInSection extends StatefulWidget {
-  GoogleSignInSection({Key key, this.auth, this.onSignIn}) : super(key: key);
+class GoogleSignInSection extends StatelessWidget {
+  GoogleSignInSection({Key key, this.height, this.onPressed}) : super(key: key);
 
-  final BaseAuth auth;
-  final VoidCallback onSignIn;
+  final VoidCallback onPressed;
+  final double height;
 
-  @override
-  State<StatefulWidget> createState() => _GoogleSignInSectionState();
-}
-
-class _GoogleSignInSectionState extends State<GoogleSignInSection> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(left: 40.0, right: 40.0),
-          constraints: const BoxConstraints(minWidth: double.infinity),
-          child: ButtonTheme(
-            height: 50,
-            child: RaisedButton(
-              onPressed: () async {
-                _signInWithGoogle();
-              },
-              child: new Text(
-                'Entre com Google',
-                style: TextStyle(color: Colors.black38),
+    return ButtonTheme(
+      height: height ?? 40.0,
+      padding: const EdgeInsets.all(0.0),
+      shape: RoundedRectangleBorder(
+        // Google doesn't specify a border radius, but this looks about right.
+        borderRadius: BorderRadius.circular(3.0),
+      ),
+      child: RaisedButton(
+        onPressed: this.onPressed,
+        color: Colors.white,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: Container(
+                height: height ?? 38.0,
+                width: height ?? 38.0,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(3.0),
+                ),
+                child: Center(
+                  child: Image(
+                    image: AssetImage('graphics/google_logo.png',
+                        package: 'gastos'),
+                    height: 24.0,
+                    width: 24.0,
+                  ),
+                ),
               ),
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4.0)),
             ),
-          ),
+            SizedBox(
+              width: 14.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
+              child: Text(
+                'Entre com o Google',
+                style: TextStyle(
+                    fontSize: 16.0,
+                    // fontFamily: "Roboto",
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black.withOpacity(0.54)),
+              ),
+            )
+          ],
         ),
-      ],
+      ),
     );
-  }
-
-  void _signInWithGoogle() async {
-    try {
-      await widget.auth.signInWithGoogle();
-      Navigator.of(context).pop();
-      widget.onSignIn();
-    } catch (e) {
-      print(e);
-    }
   }
 }

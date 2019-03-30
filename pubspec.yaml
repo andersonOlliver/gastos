@@ -25,7 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
 
   firebase_core: ^0.3.0 # add dependency for Firebase Core
-  firebase_auth: ^0.8.2
+  firebase_auth: ^0.8.3
 
   google_sign_in: ^4.0.1+1
 
@@ -39,6 +39,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+
+  assets:
+    - packages/gastos/graphics/google_logo.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
