@@ -1,11 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gastos/auth/auth.dart';
-import 'package:gastos/home_logged_page.dart';
-import 'package:gastos/home_public_page.dart';
+import 'package:gastos/pages/private/home_logged_page.dart';
+import 'package:gastos/pages/home_public_page.dart';
 
 class RootPage extends StatefulWidget {
-  RootPage({Key key, this.auth}) : super(key: key);
+  RootPage({Key key, this.auth, this.app}) : super(key: key);
   final BaseAuth auth;
+  final FirebaseApp app;
 
   @override
   State<StatefulWidget> createState() => new _RootPageState();

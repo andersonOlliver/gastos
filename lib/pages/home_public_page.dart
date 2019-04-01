@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gastos/auth/auth.dart';
-import 'package:gastos/login_page.dart';
-import 'package:gastos/register_page.dart';
+import 'package:gastos/pages/login_page.dart';
+import 'package:gastos/pages/register_page.dart';
 import 'package:gastos/signin/signin_google.dart';
 
 class HomePublicPage extends StatefulWidget {
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePublicPage> {
             alignment: Alignment.center,
             child: new Container(
               child: new Text(
-                'Junte-se a mais de meio milhão de pessoas e comece já',
+                'Junte-se a nós gratuítamente e comece já',
                 style: new TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 abstract class BaseAuth {
-  Future<String> currentUser();
+  Future<FirebaseUser> currentUser();
 
   Future<String> signIn(String email, String password);
 
@@ -26,9 +26,8 @@ class Auth implements BaseAuth {
   }
 
   @override
-  Future<String> currentUser() async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    return user != null ? user.uid : null;
+  Future<FirebaseUser> currentUser() async {
+    return await _firebaseAuth.currentUser();
   }
 
   @override
